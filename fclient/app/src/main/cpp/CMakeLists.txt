@@ -4,6 +4,7 @@
 # Sets the minimum version of CMake required to build the native library.
 
 cmake_minimum_required(VERSION 3.10.2)
+set(ABI "x86")
 
 # Declares and names the project.
 
@@ -36,24 +37,33 @@ find_library( # Sets the name of the path variable.
               # you want CMake to locate.
               log )
 
-#add spdlog and mbedcrypto
+#SPDLOG
 add_definitions(-DSPDLOG_COMPILED_LIB)
 add_library(spdlog STATIC IMPORTED)
-add_library(mbedcrypto SHARED IMPORTED)
 set_target_properties(
-        spdlog PROPERTIES IMPORTED_LOCATION /home/daneel/AndroidStudioProjects/libs/spdlog/build/x86/libspdlog.a
-        mbedcrypto PROPERTIES IMPORTED_LOCATION /home/daneel/AndroidStudioProjects/fclient/app/src/main/cmakeLibs/x86/libmbedcrypto.so
-)
-target_include_directories(
-        native-lib PUBLIC
-        /home/daneel/AndroidStudioProjects/libs/spdlog/spdlog/include
-        /home/daneel/AndroidStudioProjects/libs/mbedtls/mbedtls/include
+        spdlog PROPERTIES IMPORTED_LOCATION "/home/daneel/AndroidStudioProjects/libs/spdlog/build/${ABI}/libspdlog.a"
 )
 
+
+
+#MBEDTLS
+add_library(mbedcrypto SHARED IMPORTED)
 configure_file(
-        /home/daneel/AndroidStudioProjects/libs/mbedtls/build/x86/library/libmbedcrypto.so
-        /home/daneel/AndroidStudioProjects/fclient/app/src/main/cmakeLibs/x86/libmbedcrypto.so
+        "/home/daneel/AndroidStudioProjects/libs/mbedtls/build/${ABI}/library/libmbedcrypto.so"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../cmakeLibs/${ABI}/libmbedcrypto.so"
         COPYONLY
+)
+set_target_properties(
+        mbedcrypto PROPERTIES IMPORTED_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/../cmakeLibs/${ABI}/libmbedcrypto.so"
+)
+
+
+
+
+target_include_directories(
+        native-lib PUBLIC
+        "/home/daneel/AndroidStudioProjects/libs/spdlog/spdlog/include"
+        "/home/daneel/AndroidStudioProjects/libs/mbedtls/mbedtls/include"
 )
 
 # Specifies libraries CMake should link to your target library. You
