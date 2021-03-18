@@ -4,14 +4,21 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.io.IOUtils;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -72,8 +79,11 @@ public class MainActivity extends AppCompatActivity {
     public void onButtonClick (View v)
     {
         //Toast.makeText(this, stringFromJNI(), Toast.LENGTH_SHORT).show();
-        Intent it = new Intent(this,PinpadActivity.class);
-        startActivityForResult(it, 0);
+        //Intent it = new Intent(this,PinpadActivity.class);
+        //startActivityForResult(it, 0);
+        Log.e("BTN_log", "Pressed");
+        TestHttpClient();
+
     }
 
     @Override
@@ -86,6 +96,43 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    // HTTP TEST
+    protected void TestHttpClient()
+    {
+        new Thread(() -> {
+            try {
+                HttpsURLConnection uc = (HttpsURLConnection) (new URL("https://ru.wikipedia.org").openConnection());
+                InputStream inputStream = uc.getInputStream();
+                String html = IOUtils.toString(inputStream);
+                String title = getPageTitle(html);
+                runOnUiThread(() ->
+                {
+                    //Toast.makeText(this, titlee, Toast.LENGTH_SHORT).show();
+                    Log.e("Title_output", title);
+                });
+            }
+            catch (Exception ex) {
+                Log.e("fapptag", "Https client fails", ex);
+            }
+        }).start();
+    }
+
+
+    private String getPageTitle(String html) {
+        int pos = html.indexOf("<title");
+        String p = "not found";
+        if (pos >= 0)
+        {
+            int pos2 = html.indexOf("<", pos + 1);
+            if (pos >= 0)
+            {
+                p = html.substring(pos + 7, pos2);
+            }
+        }
+        return p;
+    }
+
 
     /**
      * A native method that is implemented by the 'native-lib' native library,
