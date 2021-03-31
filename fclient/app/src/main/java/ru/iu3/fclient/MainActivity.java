@@ -78,9 +78,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void onButtonClick (View v)
     {
-        //Toast.makeText(this, stringFromJNI(), Toast.LENGTH_SHORT).show();
-        //Intent it = new Intent(this,PinpadActivity.class);
-        //startActivityForResult(it, 0);
+//        Toast.makeText(this, stringFromJNI(), Toast.LENGTH_SHORT).show();
+//        Intent it = new Intent(this,PinpadActivity.class);
+//        startActivityForResult(it, 0);
         Log.e("BTN_log", "Pressed");
         TestHttpClient();
 
@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK || data != null) {
                 String pin = data.getStringExtra("pin");
                 Toast.makeText(this, pin, Toast.LENGTH_SHORT).show();
+                Log.e("PinPadCode", pin);
             }
         }
     }
@@ -102,18 +103,20 @@ public class MainActivity extends AppCompatActivity {
     {
         new Thread(() -> {
             try {
-                HttpsURLConnection uc = (HttpsURLConnection) (new URL("https://ru.wikipedia.org").openConnection());
+                //HttpsURLConnection uc = (HttpsURLConnection) (new URL("https://ru.wikipedia.org").openConnection());
+                HttpURLConnection uc =
+                        (HttpURLConnection) (new URL("http://10.0.2.2:8081/api/v1/title")).openConnection();
                 InputStream inputStream = uc.getInputStream();
                 String html = IOUtils.toString(inputStream);
                 String title = getPageTitle(html);
                 runOnUiThread(() ->
                 {
-                    //Toast.makeText(this, titlee, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, title, Toast.LENGTH_SHORT).show();
                     Log.e("Title_output", title);
                 });
             }
             catch (Exception ex) {
-                Log.e("fapptag", "Https client fails", ex);
+                Log.e("fapptag", "Http client fails", ex);
             }
         }).start();
     }
