@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import ru.iu3.rpo.backend.models.Artist;
 import ru.iu3.rpo.backend.models.Country;
 import ru.iu3.rpo.backend.repositories.CountryRepository;
 
@@ -65,5 +66,18 @@ public class CountryController {
         return ResponseEntity.ok(country);
     }
 
+    @DeleteMapping("/countries/{id}")
+    public Map<String, Boolean> deleteCountry (@PathVariable(value = "id") Long idcountry) {
+        Optional<Country> country = countryRepository.findById(idcountry);
+        Map<String,Boolean> response = new HashMap<>();
+        if(country.isPresent()) {
+            countryRepository.delete(country.get());
+            response.put("deleted", Boolean.TRUE);
+        }
+        else {
+            response.put("deleted", Boolean.FALSE);
+        }
+        return response;
+    }
 
 }
