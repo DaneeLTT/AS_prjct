@@ -14,7 +14,7 @@ public class Artist {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idartist", updatable = false, nullable = false)
+    @Column(name = "id", updatable = false, nullable = false)
     public long id;
 
     @Column(name = "name", nullable = false, unique = true)
@@ -25,6 +25,6 @@ public class Artist {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "idcountry")
+    @JoinColumn(name = "countryid")
     public Country country;
 }

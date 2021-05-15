@@ -35,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Example of a call to a native method
-         //TextView tv = findViewById(R.id.sample_text);
-         //tv.setText(stringFromJNI());
+//         TextView tv = findViewById(R.id.sample_text);
+//         tv.setText(stringFromJNI());
 
         byte[] key = randomBytes(16);
         byte[] data = {'H', 'e', 'l', 'l', 'o',};
@@ -46,19 +46,20 @@ public class MainActivity extends AppCompatActivity {
         String encryptedData = new String(encrypted, StandardCharsets.UTF_8);
         String decryptedData = new String(decrypted, StandardCharsets.UTF_8);
 
-        System.out.println(originalData);
-        System.out.println(encryptedData);
-        System.out.println(decryptedData);
+//        System.out.println(originalData);
+//        System.out.println(encryptedData);
+//        System.out.println(decryptedData);
 
         String output = new String(
-                "Original: "  + originalData  + "\n" +
-                        "Encrypted: " + encryptedData + "\n" +
-                        "Decrypted: " + decryptedData + "\0"
+                "Original: "  + originalData + "\n" +
+                        "Encrypted: " + encryptedData + " StringToHex " + StringToHex(encryptedData) + "\n" +
+                        "Decrypted: " + decryptedData + " StringToHex " + StringToHex(decryptedData) + "\0"
         );
 
-        System.out.println("Original: "  + originalData);
-        System.out.println("Encrypted: " + encryptedData);
-        System.out.println("Decrypted: " + decryptedData);
+//        System.out.println("Original: "  + originalData  + " StringToHex " + StringToHex(originalData));
+//        System.out.println("Encrypted: " + encryptedData + " StringToHex " + StringToHex(encryptedData));
+//        System.out.println("Decrypted: " + decryptedData + " StringToHex " + StringToHex(decryptedData));
+        Log.i("Vaznov", output);
         //tv.setText(output);
     }
 
@@ -78,11 +79,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void onButtonClick (View v)
     {
-//        Toast.makeText(this, stringFromJNI(), Toast.LENGTH_SHORT).show();
-//        Intent it = new Intent(this,PinpadActivity.class);
-//        startActivityForResult(it, 0);
-        Log.e("BTN_log", "Pressed");
-        TestHttpClient();
+        Toast.makeText(this, stringFromJNI(), Toast.LENGTH_SHORT).show();
+        Intent it = new Intent(this,PinpadActivity.class);
+        startActivityForResult(it, 0);
+        //Log.e("BTN_log", "Pressed");
+        //TestHttpClient();
 
     }
 
@@ -93,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK || data != null) {
                 String pin = data.getStringExtra("pin");
                 Toast.makeText(this, pin, Toast.LENGTH_SHORT).show();
-                Log.e("PinPadCode", pin);
+                Log.e("Vaznov", pin);
             }
         }
     }
