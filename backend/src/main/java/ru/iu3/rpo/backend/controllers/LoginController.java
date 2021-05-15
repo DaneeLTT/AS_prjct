@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/auth")
 public class LoginController {
@@ -45,7 +45,7 @@ public class LoginController {
     }
 
     @GetMapping("/logout")
-    public ResponseEntity logout(@RequestHeader ("Authorization") String token) {
+    public ResponseEntity logout(@RequestHeader (value = "Authorization", required = false) String token) {
         if (token != null && !token.isEmpty()) {
             token = StringUtils.removeStart(token, "Bearer").trim();
             Optional<User> uu = userRepository.findByToken(token);
