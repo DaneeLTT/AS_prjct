@@ -53,8 +53,9 @@ public class LoginController {
                 User u = uu.get();
                 u.token = null;
                 userRepository.save(u);
+                return new ResponseEntity(HttpStatus.OK);
             }
         }
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.UNAUTHORIZED);
     }
 }

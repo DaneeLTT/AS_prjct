@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/v1")
 public class ArtistController {
@@ -21,7 +22,7 @@ public class ArtistController {
     ArtistRepository artistRepository;
 
     @GetMapping("/artists")
-    public List<Artist> getAllArtists() {
+    public List<Artist> getAllCountries() {
         return artistRepository.findAll();
     }
 

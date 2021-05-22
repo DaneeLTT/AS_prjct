@@ -79,11 +79,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void onButtonClick (View v)
     {
-        Toast.makeText(this, stringFromJNI(), Toast.LENGTH_SHORT).show();
-        Intent it = new Intent(this,PinpadActivity.class);
-        startActivityForResult(it, 0);
-        //Log.e("BTN_log", "Pressed");
-        //TestHttpClient();
+//        Toast.makeText(this, stringFromJNI(), Toast.LENGTH_SHORT).show();
+//        Intent it = new Intent(this,PinpadActivity.class);
+//        startActivityForResult(it, 0);
+        Log.e("BTN_log", "Pressed");
+        TestHttpClient();
 
     }
 
